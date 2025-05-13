@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RaceComponent } from "../race/race.component";
+import { RaceComponent } from '../race/race.component';
 
 @Component({
   selector: 'pr-races',
@@ -20,7 +20,8 @@ export class RacesComponent {
         { id: 5, name: 'Fast Rainbow', color: 'BLUE' }
       ],
       startInstant: '2020-02-18T08:02:00Z'
-    }, {
+    },
+    {
       id: 13,
       name: 'Tokyo',
       ponies: [

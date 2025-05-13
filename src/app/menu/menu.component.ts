@@ -7,7 +7,7 @@ import { Component, signal } from '@angular/core';
   styleUrl: './menu.component.css'
 })
 export class MenuComponent {
-  navbarCollapsed = signal(true);
+  readonly navbarCollapsed = signal(true);
 
   toggleNavbar() {
     this.navbarCollapsed.set(!this.navbarCollapsed());

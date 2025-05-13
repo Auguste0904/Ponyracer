@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 0,
-    "start": "2025-05-12T15:38:28.417Z",
-    "end": "2025-05-12T15:38:28.581Z",
-    "duration": 164,
+    "start": "2025-05-13T09:56:33.568Z",
+    "end": "2025-05-13T09:56:33.768Z",
+    "duration": 200,
     "testsRegistered": 1,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "66e25814-0be7-4b6f-a7af-82f245241b51",
+      "uuid": "72098271-b530-48c5-bf63-732eb87de459",
       "title": "",
       "fullFile": "cypress\\e2e\\spec.cy.ts",
       "file": "cypress\\e2e\\spec.cy.ts",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "c25145b0-919f-4f55-a21f-11c1902fdb7c",
+          "uuid": "9d4a375e-0f79-4ef8-b9b9-28167a1cbae5",
           "title": "My First Test",
           "fullFile": "",
           "file": "",
@@ -38,7 +38,7 @@
               "title": "Visits the initial project page",
               "fullTitle": "My First Test Visits the initial project page",
               "timedOut": null,
-              "duration": 150,
+              "duration": 185,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -47,20 +47,20 @@
               "context": null,
               "code": "cy.visit('/');\ncy.contains('Ponyracer');",
               "err": {},
-              "uuid": "dd4191bb-ad2b-4905-83be-edb3701f436f",
-              "parentUUID": "c25145b0-919f-4f55-a21f-11c1902fdb7c",
+              "uuid": "d224b976-2351-4194-a639-bef10d531fd3",
+              "parentUUID": "9d4a375e-0f79-4ef8-b9b9-28167a1cbae5",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "dd4191bb-ad2b-4905-83be-edb3701f436f"
+            "d224b976-2351-4194-a639-bef10d531fd3"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 150,
+          "duration": 185,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000

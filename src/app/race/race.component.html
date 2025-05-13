@@ -1,7 +1,6 @@
 <h2>{{ raceModel().name }}</h2>
+<p>{{ raceModel().startInstant | date: 'M/d/yy, h:mm a' }}</p>
 
-<ul>
-  @for (pony of raceModel().ponies; track pony.id) {
-    <li>{{ pony.name }}</li>
-  }
-</ul>
+@for (pony of raceModel().ponies; track pony.id) {
+  <pr-pony [ponyModel]="pony" />
+}
