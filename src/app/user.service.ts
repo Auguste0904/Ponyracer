@@ -7,13 +7,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  // tu peux mettre le champ comme private (c'est généralement ce qu'on essaye de faire)
-  // voire meme readonly (puisque les choses qu'on injecte a la construction ne changent pas ensuite)
-  http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   authenticate(login: string, password: string): Observable<UserModel> {
     const url = `https://ponyracer.ninja-squad.com/api/users/authentication`;
 
     return this.http.post<UserModel>(url, { login, password });
+  }
+
+  register(login: string, password: string, birthYear: number): Observable<UserModel> {
+    const url = `https://ponyracer.ninja-squad.com/api/users`;
+
+    return this.http.post<UserModel>(url, { login, password, birthYear });
   }
 }

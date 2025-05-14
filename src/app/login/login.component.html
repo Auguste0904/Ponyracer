@@ -3,8 +3,13 @@
 <form [formGroup]="form">
   <div class="mb-3">
     <label for="login" class="form-label">Login</label>
-    <input id="login" class="form-control" [class.is-invalid]="loginControl?.dirty && loginControl?.invalid" formControlName="login" />
-    @if (loginControl?.dirty && loginControl?.invalid) {
+    <input
+      id="login"
+      class="form-control"
+      [class.is-invalid]="loginControl.dirty && loginControl.hasError('required')"
+      formControlName="login"
+    />
+    @if (loginControl.dirty && loginControl.hasError('required')) {
       <div class="invalid-feedback">Login is required</div>
     }
   </div>
@@ -15,10 +20,10 @@
       id="password"
       class="form-control"
       type="password"
-      [class.is-invalid]="passwordControl?.dirty && passwordControl?.invalid"
+      [class.is-invalid]="passwordControl.dirty && passwordControl.hasError('required')"
       formControlName="password"
     />
-    @if (passwordControl?.dirty && passwordControl?.invalid) {
+    @if (passwordControl.dirty && passwordControl.hasError('required')) {
       <div class="invalid-feedback">Password is required</div>
     }
   </div>

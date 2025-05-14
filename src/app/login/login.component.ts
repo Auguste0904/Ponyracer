@@ -10,33 +10,27 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  userService = inject(UserService);
-  routes = inject(Router);
-  formBuilder = inject(FormBuilder);
+  private readonly userService = inject(UserService);
+  private readonly routes = inject(Router);
+  private readonly fb = inject(FormBuilder);
 
-  readonly authenticationFailed = signal(false);
-
-  form = this.formBuilder.group({
+  readonly form = this.fb.group({
     login: ['', Validators.required],
     password: ['', Validators.required]
   });
+  readonly authenticationFailed = signal(false);
 
   get loginControl() {
-    return this.form.get('login');
+    return this.form.controls.login;
   }
 
   get passwordControl() {
-    return this.form.get('password');
+    return this.form.controls.password;
   }
 
   authenticate() {
-    if (
-      this.loginControl?.value !== null &&
-      this.loginControl?.value !== undefined &&
-      this.passwordControl?.value !== null &&
-      this.passwordControl?.value !== undefined
-    ) {
-      this.userService.authenticate(this.loginControl?.value, this.passwordControl?.value).subscribe({
+    if (this.form.valid) {
+      this.userService.authenticate(this.loginControl?.value as string, this.passwordControl?.value as string).subscribe({
         next: () => this.routes.navigateByUrl('/'),
         error: () => this.authenticationFailed.set(true)
       });
