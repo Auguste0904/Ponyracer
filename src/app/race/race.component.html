@@ -1,5 +1,5 @@
 <h2>{{ raceModel().name }}</h2>
-<p>{{ raceModel().startInstant | date: 'M/d/yy, h:mm a' }}</p>
+<p>{{ raceModel().startInstant | fromNow }}</p>
 
 @for (pony of raceModel().ponies; track pony.id) {
   <pr-pony [ponyModel]="pony" />

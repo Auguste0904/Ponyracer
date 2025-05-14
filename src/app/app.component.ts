@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { MenuComponent } from './menu/menu.component';
-import { RacesComponent } from './races/races.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pr-root',
-  imports: [MenuComponent, RacesComponent],
+  standalone: true,
+  imports: [MenuComponent, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'Ponyracer';
-}
+export class AppComponent {}
