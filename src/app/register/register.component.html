@@ -1,33 +1,20 @@
 <h1>Register</h1>
 
-<form [formGroup]="userForm">
+<form [formGroup]="registerForm">
   <div class="mb-3">
     <label for="login" class="form-label">Login</label>
-    <input
-      id="login"
-      class="form-control"
-      [class.is-invalid]="loginControl.dirty && loginControl.hasError('required')"
-      formControlName="login"
-      required="true"
-    />
+    <input id="login" class="form-control" formControlName="login" required="true" />
     @if (loginControl.dirty && loginControl.hasError('required')) {
       <div class="invalid-feedback" id="login-required-error">Login is required</div>
     }
-    @if (loginControl.dirty && loginControl.hasError('minLength')) {
+    @if (loginControl.dirty && loginControl.hasError('minlength')) {
       <div class="invalid-feedback" id="login-length-error">Your login should be at least 3 characters</div>
     }
   </div>
 
   <div class="mb-3" formGroupName="passwordGroup">
     <label for="password" class="form-label">Password</label>
-    <input
-      id="password"
-      class="form-control"
-      [class.is-invalid]="passwordControl.dirty && passwordControl.hasError('required')"
-      type="password"
-      formControlName="password"
-      required="true"
-    />
+    <input id="password" class="form-control" type="password" formControlName="password" required="true" />
     @if (passwordControl.dirty && passwordControl.hasError('required')) {
       <div class="invalid-feedback" id="password-required-error">Password is required</div>
     }
@@ -35,41 +22,27 @@
 
   <div class="mb-3" formGroupName="passwordGroup">
     <label for="confirmPassword" class="form-label">Confirm Password</label>
-    <input
-      id="confirmPassword"
-      class="form-control"
-      [class.is-invalid]="confirmPasswordControl.dirty && confirmPasswordControl.hasError('required')"
-      type="password"
-      formControlName="confirmPassword"
-      required="true"
-    />
+    <input id="confirmPassword" class="form-control" type="password" formControlName="confirmPassword" required="true" />
     @if (confirmPasswordControl.dirty && confirmPasswordControl.hasError('required')) {
-      <div class="invalid-feedback" id="confirm-password-required-error">Password is required</div>
+      <div class="invalid-feedback" id="confirm-password-required-error">Password confirmation is required</div>
     }
-    @if (confirmPasswordControl.dirty && passwordGroup.hasError('passwordMatch')) {
-      <div class="invalid-feedback" id="password-match-error">Your password does not match</div>
+    @if (confirmPasswordControl.dirty && passwordGroup.hasError('matchingError')) {
+      <div class="invalid-feedback" id="password-matching-error">Your password does not match</div>
     }
   </div>
 
   <div class="mb-3">
     <label for="birthYear" class="form-label">Birth year</label>
-    <input
-      id="birthYear"
-      class="form-control"
-      [class.is-invalid]="birthYearControl.dirty && birthYearControl.hasError('required')"
-      type="number"
-      formControlName="birthYear"
-      required="true"
-    />
+    <input id="birthYear" class="form-control" type="number" formControlName="birthYear" required="true" />
     @if (birthYearControl.dirty && birthYearControl.invalid) {
-      <div class="invalid-feedback" id="birth-year-error">This is not a valid year</div>
+      <div class="invalid-feedback" id="birth-year-invalid-error">This is not a valid year</div>
     }
     @if (birthYearControl.dirty && birthYearControl.hasError('required')) {
       <div class="invalid-feedback" id="birth-year-required-error">Birth year is required</div>
     }
   </div>
 
-  <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid" (click)="register()">Let's go!</button>
+  <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid" (click)="register()">Let's go!</button>
   @if (authenticationFailed()) {
     <div class="alert alert-danger" id="registration-error">Try again with another login.</div>
   }

@@ -1,7 +1,6 @@
 import { UserService } from './../user.service';
 import { Component, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -11,11 +10,11 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  private readonly fb = inject(FormBuilder);
-  private readonly userService = inject(UserService);
   private readonly routes = inject(Router);
+  private readonly fb = inject(NonNullableFormBuilder);
+  private readonly userService = inject(UserService);
 
-  readonly userForm = this.fb.group({
+  readonly registerForm = this.fb.group({
     login: ['', [Validators.required, Validators.minLength(3)]],
     passwordGroup: this.fb.group(
       {
@@ -24,40 +23,43 @@ export class RegisterComponent {
       },
       { validators: RegisterComponent.passwordMatch }
     ),
-    birthYear: [null as number | null, Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]
+    birthYear: [1900 as number, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]]
   });
 
   readonly authenticationFailed = signal(false);
 
   get loginControl() {
-    return this.userForm.controls.login;
+    return this.registerForm.controls.login;
   }
 
   get passwordGroup() {
-    return this.userForm.controls.passwordGroup;
+    return this.registerForm.controls.passwordGroup;
   }
 
   get passwordControl() {
-    return this.passwordGroup.controls['password'];
+    return this.passwordGroup.controls.password;
   }
 
   get confirmPasswordControl() {
-    return this.passwordGroup.controls['confirmPassword'];
+    return this.passwordGroup.controls.confirmPassword;
   }
 
   get birthYearControl() {
-    return this.userForm.controls.birthYear;
+    return this.registerForm.controls.birthYear;
   }
 
-  static passwordMatch(password: string, confirmPassword: string): ValidationErrors | null {
+  static passwordMatch(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+
     return password === confirmPassword ? null : { matchingError: true };
   }
 
   register() {
-    if (this.userForm.valid) {
+    if (this.registerForm.valid) {
+      console.log('values : ', this.loginControl?.value, this.passwordControl?.value, this.birthYearControl?.value);
       this.userService
         .register(this.loginControl?.value as string, this.passwordControl?.value as string, this.birthYearControl?.value as number)
-        .pipe(takeUntilDestroyed())
         .subscribe({
           next: () => this.routes.navigateByUrl('/'),
           error: () => this.authenticationFailed.set(true)

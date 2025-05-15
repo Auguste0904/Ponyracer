@@ -14,22 +14,22 @@ export class LoginComponent {
   private readonly routes = inject(Router);
   private readonly fb = inject(FormBuilder);
 
-  readonly form = this.fb.group({
+  readonly loginForm = this.fb.group({
     login: ['', Validators.required],
     password: ['', Validators.required]
   });
   readonly authenticationFailed = signal(false);
 
   get loginControl() {
-    return this.form.controls.login;
+    return this.loginForm.controls.login;
   }
 
   get passwordControl() {
-    return this.form.controls.password;
+    return this.loginForm.controls.password;
   }
 
   authenticate() {
-    if (this.form.valid) {
+    if (this.loginForm.valid) {
       this.userService.authenticate(this.loginControl?.value as string, this.passwordControl?.value as string).subscribe({
         next: () => this.routes.navigateByUrl('/'),
         error: () => this.authenticationFailed.set(true)
