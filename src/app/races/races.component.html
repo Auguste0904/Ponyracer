@@ -1,4 +1,4 @@
-@for (race of races; track race.id) {
+@for (race of races(); track race.id) {
   <div>
     <pr-race [raceModel]="race" />
   </div>

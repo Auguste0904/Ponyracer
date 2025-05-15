@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'pr-root',
-  standalone: true,
-  imports: [MenuComponent, RouterModule],
+  imports: [MenuComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -1,69 +1,54 @@
-import { UserService } from './../user.service';
 import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { UserService } from '../user.service';
+import { BirthYearInputComponent } from '../birth-year-input/birth-year-input.component';
 
 @Component({
-  selector: 'pr-register',
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, BirthYearInputComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  private readonly routes = inject(Router);
-  private readonly fb = inject(NonNullableFormBuilder);
   private readonly userService = inject(UserService);
-
-  readonly registerForm = this.fb.group({
-    login: ['', [Validators.required, Validators.minLength(3)]],
-    passwordGroup: this.fb.group(
-      {
-        password: ['', Validators.required],
-        confirmPassword: ['', Validators.required]
-      },
-      { validators: RegisterComponent.passwordMatch }
-    ),
-    birthYear: [1900 as number, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]]
+  private readonly router = inject(Router);
+  private readonly fb = inject(NonNullableFormBuilder);
+  readonly registrationFailed = signal(false);
+  readonly loginCtrl = this.fb.control('', [Validators.required, Validators.minLength(3)]);
+  readonly passwordCtrl = this.fb.control('', Validators.required);
+  readonly confirmPasswordCtrl = this.fb.control('', Validators.required);
+  readonly birthYearCtrl = this.fb.control<number | null>(null, [Validators.required]);
+  readonly passwordGroup = this.fb.group(
+    {
+      password: this.passwordCtrl,
+      confirmPassword: this.confirmPasswordCtrl
+    },
+    {
+      validators: RegisterComponent.passwordMatch
+    }
+  );
+  readonly userForm = this.fb.group({
+    login: this.loginCtrl,
+    passwordForm: this.passwordGroup,
+    birthYear: this.birthYearCtrl
   });
 
-  readonly authenticationFailed = signal(false);
-
-  get loginControl() {
-    return this.registerForm.controls.login;
+  static passwordMatch(control: AbstractControl<{ password: string; confirmPassword: string }>): ValidationErrors | null {
+    const password = control.value.password;
+    const confirmPassword = control.value.confirmPassword;
+    return password !== confirmPassword ? { matchingError: true } : null;
   }
 
-  get passwordGroup() {
-    return this.registerForm.controls.passwordGroup;
-  }
-
-  get passwordControl() {
-    return this.passwordGroup.controls.password;
-  }
-
-  get confirmPasswordControl() {
-    return this.passwordGroup.controls.confirmPassword;
-  }
-
-  get birthYearControl() {
-    return this.registerForm.controls.birthYear;
-  }
-
-  static passwordMatch(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-
-    return password === confirmPassword ? null : { matchingError: true };
-  }
-
-  register() {
-    if (this.registerForm.valid) {
-      console.log('values : ', this.loginControl?.value, this.passwordControl?.value, this.birthYearControl?.value);
-      this.userService
-        .register(this.loginControl?.value as string, this.passwordControl?.value as string, this.birthYearControl?.value as number)
-        .subscribe({
-          next: () => this.routes.navigateByUrl('/'),
-          error: () => this.authenticationFailed.set(true)
-        });
-    }
+  register(): void {
+    this.registrationFailed.set(false);
+    const {
+      login,
+      passwordForm: { password },
+      birthYear
+    } = this.userForm.getRawValue();
+    this.userService.register(login, password, birthYear!).subscribe({
+      next: () => this.router.navigateByUrl('/'),
+      error: () => this.registrationFailed.set(true)
+    });
   }
 }

@@ -1,7 +1,6 @@
 # Ponyracer
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
-Here is the link of the exercises : https://angular-exercises.ninja-squad.com/
 
 ## Development server
 

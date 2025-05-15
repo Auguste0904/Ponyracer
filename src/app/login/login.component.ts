@@ -1,39 +1,28 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../user.service';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
-  selector: 'pr-login',
   imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   private readonly userService = inject(UserService);
-  private readonly routes = inject(Router);
-  private readonly fb = inject(FormBuilder);
-
-  readonly loginForm = this.fb.group({
+  private readonly router = inject(Router);
+  readonly credentials = inject(NonNullableFormBuilder).group({
     login: ['', Validators.required],
     password: ['', Validators.required]
   });
   readonly authenticationFailed = signal(false);
 
-  get loginControl() {
-    return this.loginForm.controls.login;
-  }
-
-  get passwordControl() {
-    return this.loginForm.controls.password;
-  }
-
-  authenticate() {
-    if (this.loginForm.valid) {
-      this.userService.authenticate(this.loginControl?.value as string, this.passwordControl?.value as string).subscribe({
-        next: () => this.routes.navigateByUrl('/'),
-        error: () => this.authenticationFailed.set(true)
-      });
-    }
+  authenticate(): void {
+    this.authenticationFailed.set(false);
+    const { login, password } = this.credentials.getRawValue();
+    this.userService.authenticate(login, password).subscribe({
+      next: () => this.router.navigateByUrl('/'),
+      error: () => this.authenticationFailed.set(true)
+    });
   }
 }

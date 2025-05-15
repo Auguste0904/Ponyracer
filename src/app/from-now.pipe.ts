@@ -1,9 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { parseISO, formatDistanceToNowStrict } from 'date-fns';
+import { formatDistanceToNowStrict, parseISO } from 'date-fns';
 
 @Pipe({
-  name: 'fromNow',
-  standalone: true
+  name: 'fromNow'
 })
 export class FromNowPipe implements PipeTransform {
   transform(value: string): string {

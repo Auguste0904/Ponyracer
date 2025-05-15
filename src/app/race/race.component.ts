@@ -1,5 +1,5 @@
-import { RaceModel } from '../models/race.model';
 import { Component, input } from '@angular/core';
+import { RaceModel } from '../models/race.model';
 import { PonyComponent } from '../pony/pony.component';
 import { FromNowPipe } from '../from-now.pipe';
 

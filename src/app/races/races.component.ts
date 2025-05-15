@@ -1,19 +1,14 @@
-import { RaceService } from './../race.service';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RaceComponent } from '../race/race.component';
-import { RaceModel } from '../models/race.model';
+import { RaceService } from '../race.service';
 
 @Component({
   selector: 'pr-races',
-  standalone: true,
   imports: [RaceComponent],
   templateUrl: './races.component.html',
   styleUrl: './races.component.css'
 })
 export class RacesComponent {
-  races: Array<RaceModel> = [];
-
-  constructor(private readonly RaceService: RaceService) {
-    this.RaceService.list().subscribe((races: Array<RaceModel>) => (this.races = races));
-  }
+  readonly races = toSignal(inject(RaceService).list());
 }
