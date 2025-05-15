@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../user.service';
-import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'pr-menu',
@@ -10,10 +10,10 @@ import { DecimalPipe } from '@angular/common';
   styleUrl: './menu.component.css'
 })
 export class MenuComponent {
-  readonly navbarCollapsed = signal(true);
-  readonly userService = inject(UserService);
-  readonly user = this.userService.currentUser;
+  private readonly userService = inject(UserService);
   private readonly router = inject(Router);
+  readonly navbarCollapsed = signal(true);
+  readonly user = this.userService.currentUser;
 
   toggleNavbar(): void {
     this.navbarCollapsed.update(isCollapsed => !isCollapsed);

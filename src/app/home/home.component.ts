@@ -8,6 +8,5 @@ import { UserService } from '../user.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  readonly userService = inject(UserService);
-  readonly user = this.userService.currentUser;
+  readonly user = inject(UserService).currentUser;
 }
