@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { PonyModel } from '../models/pony.model';
 
 @Component({
@@ -9,7 +9,8 @@ import { PonyModel } from '../models/pony.model';
 export class PonyComponent {
   readonly ponyModel = input.required<PonyModel>();
   readonly ponyClicked = output<PonyModel>();
-  readonly ponyImageUrl = computed(() => `images/pony-${this.ponyModel().color.toLowerCase()}.gif`);
+  readonly ponyImageUrl = computed(() => `images/pony-${this.ponyModel().color.toLowerCase()}${this.isRunning() ? '-running' : ''}.gif`);
+  isRunning = signal(false);
 
   clicked(): void {
     this.ponyClicked.emit(this.ponyModel());

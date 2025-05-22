@@ -4,9 +4,9 @@
 
 input.ng-dirty.ng-invalid,
 pr-birth-year-input.ng-dirty.ng-invalid input {
-  border: 1px solid red;
+  border: 1px solid red !important;
 }
 
 .invalid-feedback {
-  display: block;
+  display: block !important;
 }
